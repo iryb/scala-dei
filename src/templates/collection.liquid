@@ -1,0 +1,14 @@
+<div class="products-grid">
+  <div class="container container--m">
+    <div class="section-title-container">
+      <h1 class="section-title">{{ collection.title }}</h1>
+    </div>
+    <div class="products-container f fw">
+      {% for product in collection.products limit: product_limit %}
+          {% include 'product-card', product: product %}
+      {% else %}
+        <p class="no-products">{{ 'collections.general.no_matches' | t }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>

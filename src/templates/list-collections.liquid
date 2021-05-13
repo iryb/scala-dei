@@ -1,0 +1,30 @@
+<section class="list-collections">
+  <div class="container container--m">
+    <div class="section-title-container">
+      <h1 class="section-title">{{ page_title }}</h1>
+    </div>
+
+    <div class="collections-container f fw jcc">
+      {%- for collection in collections -%}
+        <div class="collection-preview">
+          {%- if collection.image -%}
+            {%- assign collection_image = collection.image -%}
+          {%- elsif collection.products.first and collection.products.first.images != empty -%}
+            {%- assign collection_image = collection.products.first.featured_image -%}
+          {%- else -%}
+            {%- assign collection_image = blank -%}
+          {%- endif -%}
+
+          <a href="{{ collection.url }}">
+            <div class="collection-preview__image">
+              <img src="{{ collection_image | img_url: '480x' }}" alt="">
+            </div>
+            <h2 class="collection-preview__title h4">
+              {{ collection.title }}
+            </h2>
+          </a>
+        </div>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>

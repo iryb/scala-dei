@@ -1,0 +1,120 @@
+<div class="top-search">
+    <div class="container container--s">
+        {% include 'search-form' %}
+    </div>
+</div>
+
+<header class="header" data-module="header">
+    {% if section.settings.header_top_text %}
+        <div class="top-text">
+            <div class="container">
+                <p class="text">{{ section.settings.header_top_text }}</p>
+            </div>
+        </div>
+    {% endif %}
+    
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-inner f jcb aic">
+                    <div class="header-col header-left-col">
+                        <div class="socials">
+                            <ul class="socials-list f fw">
+                                {%- assign socials = "Facebook Twitter Pinterest Instagram Tumblr Snapchat YouTube Vimeo" | split: ' ' -%}
+                                {%- for social in socials -%}
+                                {%- assign social_link = social | prepend: 'social_' | append: '_link' | downcase -%}
+                                {%- assign icon_link = social | prepend: 'icon-' | downcase -%}
+                                {%- if settings[social_link] != blank -%}
+                                    <li class="social-icons__item">
+                                    <a class="social-icons__link" href="{{ settings[social_link] | escape }}" aria-describedby="a11y-external-message">
+                                        {%- include icon_link -%}
+                                    </a>
+                                    </li>
+                                {%- endif -%}
+                                {%- endfor -%}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="header-col header-center-col">
+                        <div class="logo-container">
+                            <a href="{{ routes.root_url }}">
+                                <img src="{{ section.settings.logo | img_url: '167x55' }}" alt="{{ shop.name }}">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="header-col header-right-col">
+                        <div class="search-container">
+                            <span id="search-toggle">
+                                {% include 'icon-search' %}
+                            </span>
+                        </div>
+
+                        <a href="{{ routes.cart_url }}" class="cart-icon">
+                            {% include 'icon-basket' %}
+                            <div id="CartCount" class="cart-count{% if cart.item_count == 0 %} hide{% endif %} critical-hidden" data-cart-count-bubble>
+                            <span data-cart-count>{{ cart.item_count }}</span>
+                            </div>
+                        </a>
+
+                        <div class="mobile-menu-icon" id="mobile-menu-toggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-menu-container">
+                    {% include 'menu', handle: section.settings.header_menu %}
+                </div>
+
+                <div class="header-mobile-search">
+                    {% include 'search-form' %}
+                </div>
+
+                <div class="header-mobile-socials">
+                    <ul class="socials-list f fw">
+                        {%- assign socials = "Facebook Twitter Pinterest Instagram Tumblr Snapchat YouTube Vimeo" | split: ' ' -%}
+                        {%- for social in socials -%}
+                        {%- assign social_link = social | prepend: 'social_' | append: '_link' | downcase -%}
+                        {%- assign icon_link = social | prepend: 'icon-' | downcase -%}
+                        {%- if settings[social_link] != blank -%}
+                            <li class="social-icons__item">
+                            <a class="social-icons__link" href="{{ settings[social_link] | escape }}" aria-describedby="a11y-external-message">
+                                {%- include icon_link -%}
+                            </a>
+                            </li>
+                        {%- endif -%}
+                        {%- endfor -%}
+                    </ul>
+                </div>
+            </div>
+        </div>
+</header>
+{% schema %}
+{
+    "name": "Header",
+    "class": "header",
+    "settings": [
+        {
+            "type": "text",
+            "id": "header_top_text",
+            "label": "Top text",
+            "default": "Regístrate ahora y consigue un -10% en tu primera compra."
+        },
+        {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo"
+        },
+        {
+            "type": "link_list",
+            "id": "header_menu",
+            "label": "Menu",
+            "default": "main-menu"
+        }
+    ]
+}
+{% endschema %}

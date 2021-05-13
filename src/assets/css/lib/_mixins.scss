@@ -1,0 +1,50 @@
+
+/**
+ * @info
+ * Here, we outline an array of utility
+ * mixins. The intent is to add to these as the
+ * project evolves.
+ */
+
+@mixin font-size ($font-size, $line-height) {
+  font-size: $font-size;
+  line-height: $line-height;
+}
+
+@mixin font-family--main () {
+  font-family: 'Cormorant Garamond', sans-serif;
+  font-weight: normal;
+}
+
+@mixin font-family--secondary () {
+  // font-family: Times, "Times New Roman", serif;
+  font-family: 'Avenir Next', serif;
+  font-weight: normal;
+}
+
+@mixin smooth-scroll () {
+  -webkit-overflow-scrolling: touch;
+}
+
+@mixin chevron(
+  $dimensions,
+  $borderWidth,
+  $borderColor,
+  $margin,
+  $rotation,
+  $origin,
+  $transitionDuration
+) {
+  content: '';
+  width: $dimensions;
+  height: $dimensions;
+  display: inline-block;
+  vertical-align: middle;
+  border-width: 0 0 $borderWidth $borderWidth;
+  border-style: solid;
+  border-color: $borderColor;
+  margin: $margin;
+  transform: rotate($rotation);
+  transform-origin: $origin;
+  transition: transform $transitionDuration;
+}

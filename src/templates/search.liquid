@@ -1,0 +1,87 @@
+<section class="search-results">
+  <div class="container container--m">
+    {% paginate search.results by 10 %}
+      <div class="search-title-container">
+          <h1 class="section-title h3">
+            {{ 'general.search.results_for_html' | t: terms: search.terms }}
+          </h1>
+      </div>
+      <div class="search-form-container">
+          {% if search.performed and search.results_count == 0 %}
+            <div class="rte search--no-results-found">
+              <p>{{ 'general.search.no_results' | t }}</p>
+            </div>
+          {% endif %}
+          <form action="{{ routes.search_url }}" method="get" role="search" class="search-form search-page-form">
+            <div class="input-group input-group--nowrap">
+              <div class="input-group__field input-group__field--connected search-form__input-wrapper">
+                <input
+                  type="search"
+                  name="q"
+                  value="{{ search.terms | escape }}"
+                  placeholder="{{ 'general.search.placeholder' | t }}"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-owns="predictive-search-results"
+                  aria-expanded="false"
+                  aria-label="{{ 'general.search.placeholder' | t }}"
+                  aria-haspopup="listbox"
+                  class="search-form__input"
+                  data-search-page-predictive-search-input
+                  data-base-url="{{ routes.search_url }}"
+                />
+              </div>
+
+              <button type="submit" class="search-form__connected-submit" aria-label="{{ 'general.search.submit' | t }}" data-search-page-predictive-search-submit>
+                {% include 'icon-search' %}
+              </button>
+            </div>
+          </form>
+      </div>
+
+
+    {% if search.performed %}
+
+      <ul class="page-width list-view-items">
+        {% for item in search.results %}
+          <li class="list-view-item">
+            {% if item.object_type == 'product' %}
+              {% include 'product-list', product: item %}
+            {% else %}
+              <div class="product-card product-card--list">
+                <a href="{{ item.url }}" class="full-width-link">
+                  <span class="visually-hidden">{{ item.title }}</span>
+                </a>
+                <div class="list-view-item__link">
+                  <div class="list-view-item__image-column">
+                    <div class="list-view-item__image-wrapper product-card__image-wrapper">
+                      {% unless item.image == null %}
+                        <img class="list-view-item__image" src="{{ item.image.src | img_url: '600x600' }}" alt="{{ item.image.alt | escape }}">
+                      {% endunless %}
+                    </div>
+                  </div>
+
+                  <div class="list-view-item__title-column">
+                    <div class="list-view-item__title" aria-hidden="true">
+                      <span class="product-card__title">{{ item.title }}</span>
+                    </div>
+                    <div>
+                      {% if item.published_at %}{{ item.published_at | date: format: "date" }} &#8212; {% endif %}
+                      {{ item.content | strip_html | truncate: 200 }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+
+      {%- if paginate.pages > 1 -%}
+        {% include 'pagination', paginate: paginate %}
+      {%- endif -%}
+    {% endif %}
+
+    {% endpaginate %}
+  </div>
+</section>

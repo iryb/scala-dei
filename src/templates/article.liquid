@@ -1,0 +1,46 @@
+<article class="article">
+  <div class="container container--m">
+    <div class="section-title-container">
+      <h1 class="section-title">{{ article.title }}</h1>
+    </div>
+
+    <ul class="article-nav f fw jcb">
+      <li class="article-prev">
+        <a href="{{ blog.previous_article }}">Previous post</a>
+      </li>
+      <li class="article-next">
+        <a href="{{ blog.next_article }}">Next post</a>
+      </li>
+    </ul>
+
+    <div class="article-details">
+
+      <span class="article__author">
+        By {{ article.author }}
+      </span>
+
+      <span class="article__date">
+        {{ article.published_at | time_tag: format: 'date' }}
+      </span>
+
+    </div>
+
+    <div class="article__content">
+      {{ article.content }}
+    </div>
+
+    {%- if article.tags.size > 0 -%}
+      <footer>
+        <ul aria-label="Tags">
+        {%- for tag in article.tags -%}
+          <li>
+            <a href="{{ blog.url }}/tagged/{{ tag | handle }}">
+              {{ tag }}
+            </a>
+          </li>
+        {%- endfor -%}
+        </ul>
+      <footer>
+    {%- endif -%}
+  </div>
+</article>
